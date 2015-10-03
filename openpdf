@@ -1,0 +1,7 @@
+#!/bin/bash
+
+MYDIR=`curr get $1`
+
+#MYPDF=`cd $MYDIR; ls *.pdf`
+#mupdf $MYDIR/$MYPDF
+mupdf $MYDIR/*.pdf

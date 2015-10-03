@@ -1,0 +1,21 @@
+#!/bin/bash
+case $1 in
+	pop)
+		scp $2 erlangan@sftp.reed.edu:uploads/pop
+		;;
+	probability)
+		scp $2 erlangan@sftp.reed.edu:uploads/probability
+		;;
+	galois)
+		scp $2 erlangan@sftp.reed.edu:uploads/galois
+		;;
+	archive)
+		scp $2 erlangan@sftp.reed.edu:uploads/archive
+		;;
+	list)
+	    echo Valid targets are: pop, probability, galois, archive
+	    ;;
+	*)
+	    echo Error: bad argument. Try \'upload list\' for a list of args.
+	    ;;
+esac

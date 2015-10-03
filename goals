@@ -1,0 +1,2 @@
+#!/bin/bash
+cat `getcurr goals`/semester | expand -t4 | less

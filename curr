@@ -1,0 +1,53 @@
+#!/bin/bash
+
+CURR_DATA_DIR=/home/ate/bin/data/curr
+
+if [[ ! -e $CURR_DATA_DIR ]]; then
+	mkdir -p $CURR_DATA_DIR
+fi
+
+case $1 in
+	set)
+		if [[ ! -e $CURR_DATA_DIR/$2 ]]; then
+			pwd > $CURR_DATA_DIR/$2
+		else
+			echo Error: binding already exists.
+		fi
+		echo Binding of $2 sucessful.
+		;;
+	get)
+		if [[ ! -e $CURR_DATA_DIR/$2 ]]; then
+			echo Error: argument not bound.
+		fi
+		cat $CURR_DATA_DIR/$2
+		;;
+	delete)
+		mv $CURR_DATA_DIR/$2 $CURR_DATA_DIR/$2.old
+		echo Binding of $2 removed.
+		;;
+	clean)
+		rm $CURR_DATA_DIR/*.old
+		echo Old bindings cleaned.
+		;;
+	go)
+		if [[ ! -e $CURR_DATA_DIR/$2 ]]; then
+			echo Error: argument not bound.
+		fi
+		cd `cat $CURR_DATA_DIR/$2`
+		;;
+	list)
+		ls $CURR_DATA_DIR
+		;;
+	help)
+		echo Valid arguments are:
+		echo set - Create a curr binding.
+		echo get - Display a curr binding.
+		echo go - Go to the bound directory.
+		echo delete - Delete a curr binding.
+		echo clean - Remove old curr bindings.
+		echo list - List all curr bindings.
+		;;
+	*)
+		echo Invalid argument: try \"curr help\"
+		;;
+esac

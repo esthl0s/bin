@@ -1,0 +1,53 @@
+#!/bin/bash
+
+cd /home/ate
+
+ARCH_DIR=/home/archive
+
+archive_directory () {
+	echo ***Archiving $1...
+	tar -cvf $ARCH_DIR/$1_`date +%Y-%m-%d_%H-%M`.tgz $1; 
+	echo ***Archive of $1 was sucessful.
+}
+
+case $1 in
+	academic)
+		archive_directory academic
+		;;
+	atetex)
+		cd ~/code/tex
+		archive_directory atetex
+		;;
+	bin)
+		archive_directory bin
+		;;
+	config)
+		archive_directory config-backup
+		;;
+	projects)
+		archive_directory projects
+		;;
+	school)
+		archive_directory school
+		;;
+	thesis)
+		cd ~/school
+		archive_directory thesis
+		;;
+	ate)
+		cd /home
+		archive_directory ate
+		;;
+	ALL)
+		archive_directory academic
+		archive_directory bin
+		archive_directory config-backup
+		archive_directory projects
+		archive_directory school
+		echo Mass archive completed.
+		;;
+	*)
+		echo Options are: academic, bin, config-backup \
+			projects, school, ALL
+		;;
+esac

@@ -1,0 +1,2 @@
+sudo rmmod chromeos_laptop
+sudo modprobe chromeos_laptop

@@ -1,0 +1,45 @@
+#!/bin/bash
+
+echo Beginning archival process...
+
+### academics
+echo "Going to academics"
+cd ~/academic
+git add -vA
+git commit -m "`date` | $1"
+git dropbox
+echo "Done with academics."
+
+### bin
+echo "Going to bin"
+cd ~/bin
+git add -vA
+git commit -m "`date` | $1"
+git dropbox
+echo "Done with bin."
+
+### projects
+echo "Going to projects"
+cd ~/projects
+git add -vA
+git commit -m "`date` | $1"
+git dropbox
+echo "Done with projects."
+
+### school
+echo "Going to school"
+cd ~/projects
+git add -vA
+git commit -m "`date` | $1"
+git dropbox
+echo "Done with school."
+
+### config
+echo "Going to config-backup"
+cd ~/config-backup
+git add -vA
+git commit -m "`date` | $1"
+git dropbox
+echo "Done with config."
+
+echo "Git dropbox sync completed."

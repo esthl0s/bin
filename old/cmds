@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Important commands
+
+my_commands () {
+	echo
+	echo ***My personal command suite***
+	echo archive
+	echo archive-all
+	echo getcurr
+	echo go
+	echo newtex
+	echo openpdf
+	echo sudo setbrightness
+	echo setcurr
+	echo shutoff
+	echo tmake
+	echo wifi
+}
+
+my_commands
+

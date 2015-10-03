@@ -1,0 +1,26 @@
+#!/bin/bash
+clear
+case $1 in
+	second)
+		while true; do
+			date +"%T"
+			sleep 1
+		done
+		;;
+	minute)
+		while true; do
+			date +"%H:%M"
+			sleep 60
+		done
+		;;
+	millisecond)
+		while true; do
+			date +"%T.%N"
+			sleep 0.001
+		done
+		;;
+	*)
+		echo bad option
+		;;
+esac
+

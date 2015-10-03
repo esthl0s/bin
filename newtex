@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "Welcome to newTeX."
+
+echo "Making directory..."
+if [ -e $1 ]
+then
+	echo "Error: given directory exists"
+	exit 1
+else
+	mkdir $1
+fi
+
+echo "Entering new directory..."
+cd $1
+
+echo "Copying current newTeX main..."
+cp -r /home/ate/projects/current/newTeX/main.tex .
+
+echo "Changing file name..."
+mv main.tex $1.tex
+
+echo "Generating makefile..."
+echo -e "$1.pdf: $1.tex \n\t pdftex $1.tex" > makefile;
+
+echo "New TeX project $1 created."

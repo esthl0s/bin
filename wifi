@@ -1,0 +1,86 @@
+#!/bin/bash
+
+IFACE_NAME="wlp1s0"
+
+echo_green ()
+{
+    echo -e '\E[32;40m'$1; tput sgr0
+}
+
+echo_cyan ()
+{
+    echo -e '\E[36;40m'$1; tput sgr0
+}
+
+echo_red ()
+{
+    echo -e '\E[31;40m'$1; tput sgr0
+}
+
+case $1 in
+    test)
+	echo_cyan "Testing internet connection"
+	if ping -c 1 www.google.com
+	then echo_green "Internet connection active"
+	else echo_red "Internet connection inactive"
+	fi
+	
+	exit 0
+	;;
+    status)
+	echo_cyan "Current wifi status"
+	iwconfig $IFACE_NAME
+	exit 0
+	;;
+    up)
+	if [[ -e /var/run/wpa_supplicant/$IFACE_NAME ]]; then
+    	    echo_red "ctrl_iface exists. Removing..."
+ 	    rm /var/run/wpa_supplicant/$IFACE_NAME
+	    echo_green "ctrl_iface deleted."
+	fi
+	echo_cyan "Activating wpa_supplicant on $IFACE_NAME"
+	wpa_supplicant -B -i $IFACE_NAME \
+		       -c /etc/wpa_supplicant/wpa_supplicant.conf
+	echo_cyan "Activating dhcpcd on $IFACE_NAME"
+	dhcpcd -w $IFACE_NAME
+	echo_green "Wifi is now (hopefully) up"
+	exit 0
+	;;
+    down)
+	echo_cyan "Killing dhcp on wireless interface"
+	dhcpcd -k $IFACE_NAME
+	echo_cyan "Killing wpa_supplicant"
+	killall wpa_supplicant
+	if [[ -e /var/run/wpa_supplicant/$IFACE_NAME ]]; then
+	    echo_red '\E[31;40mctrl_iface exists. Removing...'
+	    rm /var/run/wpa_supplicant/$IFACE_NAME
+	    echo_green "ctrl_iface deleted."
+	fi
+	echo_green "Wifi is now (hopefully) down"
+	exit 0
+	;;
+    scan)
+	echo_cyan "Scanning for carrier signals"
+	## TEMP_VAR=`iwlist wlp1s0 scanning | grep ESSID`
+	## if [[ $TEMP_VAR != "" ]]; then
+	##    echo -e $TEMP_VAR
+	##    echo_green "Scan complete: carrier found"
+	## else echo_red "Scan complete: no carrier found"  
+	## fi
+	iwlist wlp1s0 scanning | grep -E 'ESSID|Encryption|Quality'
+	echo_green "Scan complete"
+	exit 0
+	;;
+    help)
+	echo Valid arguments are:
+	echo -e "up \t Attempt to establish a wireless internet connection"
+	echo -e "down \t Kill the wireless connection"
+	echo -e "test \t Test if an internet connection exists"
+	echo -e "status \t Display the wireless connection status"
+	exit 0
+	;;
+    *)
+	echo Unknown argument. Try passing \"help\"
+	exit 0
+	;;
+esac

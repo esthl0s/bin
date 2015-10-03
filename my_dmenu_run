@@ -1,0 +1,2 @@
+dmenu_run -fn -*-terminus-bold-*-*-*-32-*-*-*-*-*-iso8859-1 \
+-nb BLACK -nf GREEN -sb GREEN -sf BLACK

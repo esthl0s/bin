@@ -1,0 +1,78 @@
+#!/bin/bash
+
+BACKLIGHT_DIR="/sys/class/backlight/intel_backlight"
+BACKLIGHT_FILE="$BACKLIGHT_DIR/brightness"
+BACKLIGHT_MAX=`cat $BACKLIGHT_DIR/max_brightness`
+BACKLIGHT_VAL=$BACKLIGHT_MAX
+
+case $1 in
+	set)
+		case $2 in
+			min)
+				BACKLIGHT_VAL=250	
+				;;
+			low)
+				BACKLIGHT_VAL=1500
+				;;
+			medium)
+				BACKLIGHT_VAL=2500
+				;;
+			high)
+				BACKLIGHT_VAL=3500
+				;;
+			max)
+				BACKLIGHT_VAL=$BACKLIGHT_MAX
+				;;
+			help)
+				echo This will set screen brightness
+				echo Valid arguments are:
+				echo min - Set the brightness to a vew low value
+				echo low - Set the brightness to a dim value
+				echo medium - Set the brightness to an indoors value
+				echo high - Set the brightness to a bright value
+				echo max - Set the brightness to a glaring value
+				echo help - Display this dialog
+				exit 0
+				;;
+			*)
+				echo Unknown argument. Try passing \"set help\"
+				exit 1
+				;;
+		esac
+		;;
+	get)
+		case $2 in
+			machine)
+				echo `cat $BACKLIGHT_FILE`
+				exit 0
+				;;
+			help)
+				echo This will return the screen brightness
+				echo Valid arguments are
+				echo machine - Return ONLY the numerical brightness value
+				echo [noarg] - Return a human readable brightness value
+				echo help - Display this dialog
+				exit 0
+				;;
+			*)
+				echo Current brightness is `cat $BACKLIGHT_FILE`\/$BACKLIGHT_MAX
+				exit 0
+				;;
+		esac
+		;;
+	help)
+		echo Valid argument are:
+		echo set - Set the screen brightness
+		echo get - Display the current screen brightness
+		echo help - Display this dialog
+		exit 0
+		;;
+	*)
+		echo Error: Unknown option.
+		exit 1
+		;;
+esac
+
+echo $BACKLIGHT_VAL > $BACKLIGHT_FILE
+echo Value written.
+

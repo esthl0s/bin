@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DATA_DIR=/home/ate/bin/data
+
+if [[ ! -e $DATA_DIR/setcurr/$1 ]]; then
+	touch $DATA_DIR/setcurr/$1
+fi
+
+TARGET_DIR=$DATA_DIR/setcurr/$1
+
+pwd > $TARGET_DIR
+echo $1 directory set
